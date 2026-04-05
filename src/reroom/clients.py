@@ -7,24 +7,23 @@ generation) services.
 
 from __future__ import annotations
 
-from azure.ai.inference import ChatCompletionsClient
-from azure.core.credentials import AzureKeyCredential
 from openai import AzureOpenAI
 
 from reroom.config import Config
 
-def create_analysis_client(config: Config) -> ChatCompletionsClient:
-    """Create an Azure AI Foundry ChatCompletionsClient for GPT-4o vision.
+def create_analysis_client(config: Config) -> AzureOpenAI:
+    """Create an Azure OpenAI client for GPT-4o vision analysis.
 
     Args:
         config: Application configuration with Azure credentials.
 
     Returns:
-        A configured ChatCompletionsClient instance.
+        A configured AzureOpenAI instance.
     """
-    return ChatCompletionsClient(
-        endpoint=config.azure_ai_foundry_endpoint,
-        credential=AzureKeyCredential(config.azure_ai_foundry_api_key),
+    return AzureOpenAI(
+        azure_endpoint=config.azure_ai_foundry_endpoint,
+        api_key=config.azure_ai_foundry_api_key,
+        api_version="2024-08-01-preview",
     )
 
 def create_image_client(config: Config) -> AzureOpenAI:
